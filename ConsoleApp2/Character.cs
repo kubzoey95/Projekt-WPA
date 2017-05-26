@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace ConsoleApp2
 {         
-                public class Character
+                public class Character:IDisposable 
                 {
         /*private static HashSet<Mesh> bullets = new HashSet<Mesh>();
         public static HashSet<Mesh> GetBullets()
@@ -40,6 +40,17 @@ namespace ConsoleApp2
             Thread.Sleep(moveduration);
             BulletsFly(moveduration);
         }*/
+        protected virtual void Dispose(bool ti)
+        {
+
+        }
+        public void Dispose()
+        {
+            try { enemies.Remove(this); } catch { }
+            try { playables.Remove(this); } catch { }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         public static HashSet<Character> GetEnemies()
         {
             return enemies;
@@ -54,6 +65,16 @@ namespace ConsoleApp2
             mesh.AddPoint(new Screen.Point(x, y, col));
             this.SetPlayableOrEnemy(plbl);
             this.mesh.SetRender(true);
+        }
+        public void Niszcz()
+        {
+            
+        }
+        ~Character()
+        {
+            try { enemies.Remove(this); } catch { }
+            try { playables.Remove(this); } catch { }
+            
         }
         public static void EnemyAttack(int moveduration){
             HashSet<Character> plb = new HashSet<Character>();

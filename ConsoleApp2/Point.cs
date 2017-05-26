@@ -8,7 +8,7 @@ namespace ConsoleApp2
         private static int width = Console.BufferWidth;
         public static int GetWidth() { return width; }
         public static int GetHeight() { return height; }
-        public class Point
+        public class Point:IDisposable
         {
             private int x, y;
             private System.ConsoleColor color;
@@ -42,6 +42,20 @@ namespace ConsoleApp2
                 x = x1;
                 y = y1;
                 color = col;
+            }
+            ~Point()
+            {
+
+            }
+            protected virtual void Dispose(bool ki)
+            {
+
+            }
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+                
             }
             public void Transform(Point pt)
             {

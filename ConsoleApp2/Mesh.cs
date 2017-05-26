@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ConsoleApp2
 {
-        public partial class Mesh
+        public partial class Mesh:IDisposable
         {
             private HashSet<Screen.Point> points;
             private bool collider;
@@ -49,6 +49,23 @@ namespace ConsoleApp2
             {
                 return false;
             }
+        }
+        ~Mesh()
+        {
+            try { render.Remove(this); } catch { }
+            try { colliders.Remove(this); } catch { }
+
+        }
+        protected virtual void Dispose(bool disp)
+        {
+            
+        }
+        public void Dispose()
+        {
+            try { render.Remove(this); } catch { }
+            try { colliders.Remove(this); } catch { }
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
         private static HashSet<Screen.Point> Joincolls()
         {
@@ -134,10 +151,6 @@ namespace ConsoleApp2
                 rendered = false;
                 render.Remove(this);
             }
-        }
-        ~Mesh()
-        {
-
         }
         public static void Remove(Mesh mes)
         {

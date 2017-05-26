@@ -87,7 +87,7 @@ namespace ConsoleApp2
                     foreach(Character ch in trash)
                     {
                         ch.GetMesh().SetRender(false);
-                        
+                        ch.Dispose();     
                     }
                 }
             }

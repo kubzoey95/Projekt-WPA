@@ -11,7 +11,6 @@ namespace ConsoleApp2
         private static HashSet<Mesh> render = new HashSet<Mesh>();
         private static HashSet<Screen.Point> renderpoints = new HashSet<Screen.Point>();
         private static HashSet<Mesh> colliders= new HashSet<Mesh>();
-        private static HashSet<Screen.Point> particles = new HashSet<Screen.Point>();
         public static HashSet<Mesh> GetRender()
         {
             return render;
@@ -22,13 +21,10 @@ namespace ConsoleApp2
         }
         public bool Collides()
         {
-            foreach(Screen.Point p in points)
-            {
-                foreach (Screen.Point pt in particles)
+                foreach (Mesh msh in colliders)
                 {
-                    if (p.IsEqualWith(pt)) return true;
+                if (this.CollidesWith(msh)) return true;
                 }
-            }
             return false;
         }
         public bool CollidesWith(Mesh mes)
@@ -81,7 +77,6 @@ namespace ConsoleApp2
             if (cl)
             {
                 colliders.Add(this);
-                particles = Joincolls();
             }
         }
         public Mesh(HashSet<Screen.Point> pts, bool ren)
@@ -92,7 +87,6 @@ namespace ConsoleApp2
             if(ren)
             render.Add(this);
         }
-        public static HashSet<Screen.Point> GetParticles() { return particles; }
             public Mesh()
             {
                 points = new HashSet<Screen.Point>();
@@ -110,6 +104,20 @@ namespace ConsoleApp2
             public void SetPoints(HashSet<Screen.Point> pts) { points = pts; }
             public bool GetCollider() { return collider; }
             public bool GetRendered() { return rendered; }
+        public Mesh(bool rend, bool coll, ConsoleColor col, Screen.Point Start, Screen.Point End)
+        {
+            HashSet<Screen.Point> pts = new HashSet<Screen.Point>();
+            double dist = Start.DistanceFrom(End);
+            for (int i = 0; i < dist; i++)
+            {
+                pts.Add(new Screen.Point(Convert.ToInt16((1 - Convert.ToDouble(i) / dist) * Convert.ToDouble(Start.GetX()) + (Convert.ToDouble(i) / dist) * Convert.ToDouble(End.GetX())), Convert.ToInt16((1 - Convert.ToDouble(i) / dist) * Convert.ToDouble(Start.GetY()) + (Convert.ToDouble(i) / dist) * Convert.ToDouble(End.GetY())), col));
+            }
+            points = pts;
+            collider = coll;
+            rendered = rend;
+            colliders.Add(this);
+            render.Add(this);
+        }
             public void AddPoint(Screen.Point p)
             {
                 points.Add(p);

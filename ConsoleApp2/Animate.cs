@@ -39,37 +39,29 @@ namespace ConsoleApp2
             {
                 while (Console.ReadKey().Key == ConsoleKey.UpArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(0, 1));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(0, -1)); }
                     else { }
                 }
                 while (Console.ReadKey().Key == ConsoleKey.DownArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(0, -1));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(0, 1)); }
                     else { }
                 }
                 while (Console.ReadKey().Key == ConsoleKey.LeftArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(-1, 0));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(1, 0)); }
                     else { }
                 }
                 while (Console.ReadKey().Key == ConsoleKey.RightArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(1, 0));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(-1, 0)); }
                     else { }
                 }
-                
+
                 while (Console.ReadKey().Key == ConsoleKey.Spacebar)
                 {
                     HashSet<Character> trash = new HashSet<Character>();
@@ -96,32 +88,24 @@ namespace ConsoleApp2
             {
                 while (Console.ReadKey().Key == ConsoleKey.UpArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(0, 1));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(0, -1)); }
                     else { }
                 }
                 while (Console.ReadKey().Key == ConsoleKey.DownArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(0, -1));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(0, 1)); }
                     else { }
                 }
                 while (Console.ReadKey().Key == ConsoleKey.LeftArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(-1, 0));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(1, 0)); }
                     else { }
                 }
                 while (Console.ReadKey().Key == ConsoleKey.RightArrow)
                 {
-                    HashSet<Screen.Point> parts = GetParticles();
-                    parts.ExceptWith(mes.GetPoints());
                     mes.Transform(new Screen.Point(1, 0));
                     if (mes.Collides()) { mes.Transform(new Screen.Point(-1, 0)); }
                     else { }

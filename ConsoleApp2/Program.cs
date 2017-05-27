@@ -22,9 +22,8 @@ namespace ConsoleApp2
             Console.ReadKey();
             Mesh mms = new Mesh(new Screen.Point(7, 9), new Screen.Point(3, 2), ConsoleColor.Magenta);
             Console.ReadKey();
-            Gameplay.Stage.MakeEnemies(5);
             ConsoleKey key = new ConsoleKey();
-            Parallel.Invoke( () => { Gameplay.Render(); }, () => { zuzanka.Move(); }, () => { Gameplay.Music(); }, () => { Character.EnemyAttack(400); },()=> { while (key != ConsoleKey.Escape) { key = Console.ReadKey().Key; }; });
+            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(500); }, () => { Gameplay.Stage.MakeObstacles(3000,10); }, () => { Gameplay.Render(); }, () => { zuzanka.Move(); }, () => { Gameplay.Music(); },()=> { while (key != ConsoleKey.Escape) { key = Console.ReadKey().Key; }; });
             Console.ReadKey();
         }
     }

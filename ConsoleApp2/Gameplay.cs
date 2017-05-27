@@ -14,8 +14,8 @@ namespace ConsoleApp2
         public static void TitleScreen()
         {
             Console.Title = "RIDE";
-            Console.SetWindowSize(120, 58);
-            Console.SetBufferSize(120, 58);
+            Console.SetWindowSize(60, 58);
+            Console.SetBufferSize(60, 58);
             Mesh RIDE = new Mesh();
             RIDE.MergeWith(new Mesh(ConsoleColor.Blue, new Screen.Point(20, Screen.GetHeight() - 40), new Screen.Point(20, Screen.GetHeight() - 20), new Screen.Point(25, Screen.GetHeight() - 25), new Screen.Point(20, Screen.GetHeight() - 30), new Screen.Point(25, Screen.GetHeight() - 40)));
             RIDE.MergeWith(new Mesh(ConsoleColor.Blue, new Screen.Point(30, Screen.GetHeight() - 40), new Screen.Point(30, Screen.GetHeight() - 20)));

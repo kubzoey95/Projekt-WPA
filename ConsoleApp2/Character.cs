@@ -48,6 +48,7 @@ namespace ConsoleApp2
         {
             try { enemies.Remove(this); } catch { }
             try { playables.Remove(this); } catch { }
+            try { this.mesh.SetRender(false); } catch { }
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -66,10 +67,16 @@ namespace ConsoleApp2
             this.SetPlayableOrEnemy(plbl);
             this.mesh.SetRender(true);
         }
-        public void Niszcz()
+        /*public void CheckIfDies()
         {
-            
-        }
+            while (true)
+            {
+                    foreach (Mesh mes *in Gameplay.Stage.GetObstacles())
+                    {
+                        if (this.mesh.CollidesWith(mes)) { this.mesh.SetRender(false); this.Dispose(); }
+                    }
+            }
+        }*/
         ~Character()
         {
             try { enemies.Remove(this); } catch { }

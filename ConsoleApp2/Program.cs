@@ -12,9 +12,6 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             Mesh mes = new Mesh(new Screen.Point(10, 2), new Screen.Point(10, 7), ConsoleColor.Magenta);
-            Item it = new Item("kuba");
-            HashSet<Item> itms = new HashSet<Item>();
-            itms.Add(it);
             Gameplay.TitleScreen();
             Gameplay.Stage.MakeBounds();
             Character zuzanka = new Character(mes);
@@ -23,7 +20,7 @@ namespace ConsoleApp2
             Mesh mms = new Mesh(new Screen.Point(7, 9), new Screen.Point(3, 2), ConsoleColor.Magenta);
             Console.ReadKey();
             ConsoleKey key = new ConsoleKey();
-            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(500); }, () => { Gameplay.Stage.MakeObstacles(3000,10); }, () => { Gameplay.Render(); }, () => { zuzanka.Move(); }, () => { Gameplay.Music(); },()=> { while (key != ConsoleKey.Escape) { key = Console.ReadKey().Key; }; });
+            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(50); }, () => { Gameplay.Stage.MakeObstacles(300,100); }, () => { Gameplay.Render(); }, () => { zuzanka.Move(); }, () => { Gameplay.Music(); },()=> { while (key != ConsoleKey.Escape) { key = Console.ReadKey().Key; }; });
             Console.ReadKey();
         }
     }

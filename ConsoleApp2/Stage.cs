@@ -37,36 +37,41 @@ namespace ConsoleApp2
             private static HashSet<Character> trashch = new HashSet<Character>();
             public static void MoveObstacles(int moveduration)
             {
-
-                foreach(Mesh mes in obstacles)
-                {
-                    mes.Transform(0, -1);
+                while (true) {
                     try
                     {
-                        foreach (Character ch in Character.GetPlayables())
+                        foreach (Mesh mes in obstacles)
                         {
-                            if (mes.CollidesWith(ch.GetMesh())) { trashch.Add(ch); trash.Add(mes); }
+                            mes.Transform(0, -1);
+                            try
+                            {
+                                foreach (Character ch in Character.GetPlayables())
+                                {
+                                    if (mes.CollidesWith(ch.GetMesh())) { trashch.Add(ch); trash.Add(mes); }
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+
+                            foreach (Character ch in trashch)
+                            {
+                                try
+                                {
+                                    ch.Dispose();
+                                }
+                                catch { }
+                            }
+                            trashch.Clear();
+                            if (Mesh.GetMiddlePoint(mes).GetY() < 0)
+                            {
+                                trash.Add(mes);
+                            }
                         }
                     }
-                    catch
-                    {
-                
-                    }
-                    foreach(Character ch in trashch)
-                    {
-                        try
-                        {
-                            ch.Dispose();
-                        }
-                        catch { }
-                    }
-                    trashch.Clear();
-                    if (Mesh.GetMiddlePoint(mes).GetY() < 0)
-                    {
-                        trash.Add(mes);
-                    }
-                }
-                foreach(Mesh mes in trash)
+                    catch { }
+                foreach (Mesh mes in trash)
                 {
                     try
                     {
@@ -77,7 +82,7 @@ namespace ConsoleApp2
                 }
                 trash.Clear();
                 Thread.Sleep(moveduration);
-                MoveObstacles(moveduration);
+            }
             }
             public static void MakeObstacles(int period,int quantity)
             {

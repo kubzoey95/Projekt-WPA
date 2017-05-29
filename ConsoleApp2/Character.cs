@@ -44,13 +44,13 @@ namespace ConsoleApp2
             }*/
             protected virtual void Dispose(bool ti)
             {
-
             }
             public void Dispose()
             {
                 try { enemies.Remove(this); } catch { }
                 try { playables.Remove(this); } catch { }
                 try { this.mesh.SetRender(false); } catch { }
+                mesh.Dispose();
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }

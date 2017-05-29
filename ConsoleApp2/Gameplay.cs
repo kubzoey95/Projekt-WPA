@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Media;
 
 namespace ConsoleApp2
 {
     public partial class Gameplay
     {
-        public static void Bach()
+        public static void MyMusic()
         {
-            
+            int[] kadencja = { 0, -5, 0, 3 , 0, -5, 0, 3, 0, -4, 0, 5, 7, 5, 2, -1 };
+            while (GlobalInput != ConsoleKey.Escape)
+            {
+                for(int i = 0; i < kadencja.Length; i++)
+                {
+                    Console.Beep(Convert.ToInt16(Convert.ToDouble(440) * Math.Pow(2, Convert.ToDouble(kadencja[i])/12)),250);
+                    if (GlobalInput == ConsoleKey.Escape) break;
+                }
+            }
         }
         private static ConsoleKey GlobalInput = new ConsoleKey();
         public static void Input()
@@ -21,7 +30,7 @@ namespace ConsoleApp2
         private static Random rand = new Random();
         public static void Game1(int diff, Character ch)
         {
-            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MusicObstacle(); }, () => { Gameplay.Render(); }, () => { ch.Move(); }, () => { Gameplay.Music(); }, () => { Input(); });
+            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstacles(500,100); }, () => { Gameplay.Render(); }, () => { ch.Move(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
         }
         public static void TitleScreen()
         {

@@ -35,8 +35,60 @@ namespace ConsoleApp2
                     }
                 }
             private static Mesh pos = new Mesh();
-            public static void KeyMove(Mesh mes)
+            public static void KeyMove3(Mesh mes, ConsoleKey Input)
             {
+                while (Input != ConsoleKey.Escape)
+                {
+                    while (Input == ConsoleKey.UpArrow)
+                    {
+                        mes.Transform(new Screen.Point(0, 1));
+                        if (mes.Collides()) { mes.Transform(new Screen.Point(0, -1)); }
+                        else { }
+                    }
+                    while (Input == ConsoleKey.DownArrow)
+                    {
+                        mes.Transform(new Screen.Point(0, -1));
+                        if (mes.Collides()) { mes.Transform(new Screen.Point(0, 1)); }
+                        else { }
+                    }
+                    while (Input == ConsoleKey.LeftArrow)
+                    {
+                        mes.Transform(new Screen.Point(-1, 0));
+                        if (mes.Collides()) { mes.Transform(new Screen.Point(1, 0)); }
+                        else { }
+                    }
+                    while (Input == ConsoleKey.RightArrow)
+                    {
+                        mes.Transform(new Screen.Point(1, 0));
+                        if (mes.Collides()) { mes.Transform(new Screen.Point(-1, 0)); }
+                        else { }
+                    }
+
+                    while (Input == ConsoleKey.Spacebar)
+                    {
+                        HashSet<Gameplay.Character> trash = new HashSet<Gameplay.Character>();
+                        foreach (Gameplay.Character ch in Gameplay.Character.GetEnemies())
+                        {
+                            try
+                            {
+                                foreach (Screen.Point o in ch.GetMesh().GetPoints())
+                                {
+                                    if (o.GetX() == Mesh.GetMiddlePoint(mes).GetX()) { trash.Add(ch); }
+                                }
+                            }
+                            catch { }
+                        }
+                        foreach (Gameplay.Character ch in trash)
+                        {
+                            ch.GetMesh().SetRender(false);
+                            ch.Dispose();
+                        }
+                    }
+                }
+            }
+            public static void KeyMove(Mesh mes,ConsoleKey Input)
+            {
+                while (Input != ConsoleKey.Escape) { 
                 while (Console.ReadKey().Key == ConsoleKey.UpArrow)
                 {
                     mes.Transform(new Screen.Point(0, 1));
@@ -64,9 +116,9 @@ namespace ConsoleApp2
 
                 while (Console.ReadKey().Key == ConsoleKey.Spacebar)
                 {
-                    HashSet<Character> trash = new HashSet<Character>();
-                    foreach (Character ch in Character.GetEnemies())
-                        {
+                    HashSet<Gameplay.Character> trash = new HashSet<Gameplay.Character>();
+                    foreach (Gameplay.Character ch in Gameplay.Character.GetEnemies())
+                    {
                         try
                         {
                             foreach (Screen.Point o in ch.GetMesh().GetPoints())
@@ -75,13 +127,14 @@ namespace ConsoleApp2
                             }
                         }
                         catch { }
-                        }
-                    foreach(Character ch in trash)
+                    }
+                    foreach (Gameplay.Character ch in trash)
                     {
                         ch.GetMesh().SetRender(false);
-                        ch.Dispose();     
+                        ch.Dispose();
                     }
                 }
+            }
             }
             
             public static void KeyMove2(Mesh mes)

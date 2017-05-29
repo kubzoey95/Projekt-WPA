@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ConsoleApp2
 {
@@ -27,17 +28,26 @@ namespace ConsoleApp2
                 for (int i = 0; i < number; i++)
                 {
                     new Character(ConsoleColor.Yellow,new Screen.Point(rand.Next(Screen.GetWidth()),rand.Next(20,Screen.GetWidth()))) ;
+                    if (GlobalInput == ConsoleKey.Escape) break;
                 }
             }
             public static void MakeObstacle()
             {
                 obstacles.Add(new Mesh(true,true,ConsoleColor.DarkRed,new Screen.Point(rand.Next(0,Screen.GetWidth()),Screen.GetHeight()),new Screen.Point(rand.Next(0,Screen.GetWidth()),Screen.GetHeight())));
             }
+            public static void MusicObstacle()
+            {
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    Console.Beep(rand.Next(147, 698), rand.Next(1000, 2000));
+                    obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight()), new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight())));
+                }
+            }
             private static HashSet<Mesh> trash = new HashSet<Mesh>();
             private static HashSet<Character> trashch = new HashSet<Character>();
             public static void MoveObstacles(int moveduration)
             {
-                while (true) {
+                while (GlobalInput!=ConsoleKey.Escape) {
                     try
                     {
                         foreach (Mesh mes in obstacles)
@@ -87,7 +97,7 @@ namespace ConsoleApp2
             public static void MakeObstacles(int period,int quantity)
             {
                 int r;
-                while (quantity > 0)
+                while (quantity > 0 && GlobalInput != ConsoleKey.Escape)
                 {
                     r = rand.Next(0, Screen.GetWidth());
                     obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r+rand.Next(4,20), Screen.GetHeight())));

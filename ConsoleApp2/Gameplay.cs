@@ -10,12 +10,24 @@ namespace ConsoleApp2
         {
             
         }
-        public static Random rand = new Random();
+        private static ConsoleKey GlobalInput = new ConsoleKey();
+        public static void Input()
+        {
+            while (GlobalInput != ConsoleKey.Escape)
+            {
+                GlobalInput = Console.ReadKey().Key;
+            }
+        }
+        private static Random rand = new Random();
+        public static void Game1(int diff, Character ch)
+        {
+            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MusicObstacle(); }, () => { Gameplay.Render(); }, () => { ch.Move(); }, () => { Gameplay.Music(); }, () => { Input(); });
+        }
         public static void TitleScreen()
         {
             Console.Title = "RIDE";
-            Console.SetWindowSize(60, 58);
-            Console.SetBufferSize(60, 58);
+            Console.SetWindowSize(100, 30);
+            Console.SetBufferSize(100, 30);
             Mesh RIDE = new Mesh();
             RIDE.MergeWith(new Mesh(ConsoleColor.Blue, new Screen.Point(20, Screen.GetHeight() - 40), new Screen.Point(20, Screen.GetHeight() - 20), new Screen.Point(25, Screen.GetHeight() - 25), new Screen.Point(20, Screen.GetHeight() - 30), new Screen.Point(25, Screen.GetHeight() - 40)));
             RIDE.MergeWith(new Mesh(ConsoleColor.Blue, new Screen.Point(30, Screen.GetHeight() - 40), new Screen.Point(30, Screen.GetHeight() - 20)));
@@ -37,22 +49,26 @@ namespace ConsoleApp2
         }
         public static void Music()
         {
-            Parallel.Invoke(()=> { Console.Beep(rand.Next(147, 698), rand.Next(147, 698)); });
-            Music();
+            while (GlobalInput != ConsoleKey.Escape)
+            {
+                Console.Beep(rand.Next(147, 698), rand.Next(147, 698));
+            }
         }
         public static void Render()
         {
-                    Console.Clear();
-            try
+            while (GlobalInput != ConsoleKey.Escape)
             {
-                foreach (Mesh mes in Mesh.GetRender())
+                Console.Clear();
+                try
                 {
-                    mes.Render();
+                    foreach (Mesh mes in Mesh.GetRender())
+                    {
+                        mes.Render();
+                    }
                 }
+                catch { }
+                Thread.Sleep(20);
             }
-            catch { }
-            Thread.Sleep(20);
-            Render();
         }
     }
 }

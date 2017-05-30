@@ -151,6 +151,43 @@ namespace ConsoleApp2
             {
                 return mesh;
             }
+            public void Move1()
+            {
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    if (this.playable)
+                    {
+                        while (GlobalInput == ConsoleKey.UpArrow)
+                        {
+                            mesh.Transform(new Screen.Point(0, 1));
+                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(0, -1)); }
+                            else { }
+                            Thread.Sleep(20);
+                        }
+                        while (GlobalInput == ConsoleKey.DownArrow)
+                        {
+                            mesh.Transform(new Screen.Point(0, -1));
+                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(0, 1)); }
+                            else { }
+                            Thread.Sleep(20);
+                        }
+                        while (GlobalInput == ConsoleKey.LeftArrow)
+                        {
+                            mesh.Transform(new Screen.Point(-1, 0));
+                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(1, 0)); }
+                            else { }
+                            Thread.Sleep(20);
+                        }
+                        while (GlobalInput == ConsoleKey.RightArrow)
+                        {
+                            mesh.Transform(new Screen.Point(1, 0));
+                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(-1, 0)); }
+                            else { }
+                            Thread.Sleep(20);
+                        }
+                    }
+                }
+            }
             public void Move()
             {
                 while (GlobalInput != ConsoleKey.Escape)

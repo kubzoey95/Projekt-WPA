@@ -30,7 +30,7 @@ namespace ConsoleApp2
         private static Random rand = new Random();
         public static void Game1(int diff, Character ch)
         {
-            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstacles(500,100); }, () => { Gameplay.Render(); }, () => { ch.Move(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
+            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstacles(500,100); }, () => { Gameplay.Render(); }, () => { ch.Move1(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
         }
         public static void TitleScreen()
         {

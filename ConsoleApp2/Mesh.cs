@@ -21,10 +21,14 @@ namespace ConsoleApp2
         }
         public bool Collides()
         {
+            try
+            {
                 foreach (Mesh msh in colliders)
                 {
-                if (this.CollidesWith(msh)) return true;
+                    if (this.CollidesWith(msh)) return true;
                 }
+            }
+            catch { return true; }
             return false;
         }
         public bool CollidesWith(Mesh mes)

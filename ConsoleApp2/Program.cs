@@ -18,7 +18,6 @@ namespace ConsoleApp2
             Mesh mm = new Mesh(new Screen.Point(2, 4), new Screen.Point(20, 30), ConsoleColor.Magenta);
             Console.ReadKey();
             Mesh mms = new Mesh(new Screen.Point(7, 9), new Screen.Point(3, 2), ConsoleColor.Magenta);
-            Console.ReadKey();
             Gameplay.Game1(50, zuzanka);
             Console.ReadKey();
         }

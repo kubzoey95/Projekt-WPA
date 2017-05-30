@@ -28,11 +28,22 @@ namespace ConsoleApp2
             }
         }
         private static Random rand = new Random();
-        public static void Game1(int diff, Character ch)
+        public static void RIDE(int diff)
         {
-            Parallel.Invoke(() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstacles(500,100); }, () => { Gameplay.Render(); }, () => { ch.Move1(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
+            RIDETitleScreen();
+            Character ch = new Character();
+            ch.SetPlayableOrEnemy(true);
+            Mesh m = new Mesh(ConsoleColor.Yellow, new Screen.Point(2, 0), new Screen.Point(1, -1), new Screen.Point(2, -1), new Screen.Point(3, -1), new Screen.Point(2, 0));
+            m.MiddlePointMoveTo(new Screen.Point(Screen.GetWidth() / 2, 3));
+            m.SetRender(true);
+            ch.SetMesh(m);
+            Parallel.Invoke(() => { ch.Move1(); }, () => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstacles(500,100); }, () => { Gameplay.Render(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
         }
-        public static void TitleScreen()
+        public static void Game2(int diff)
+        {
+
+        }
+        public static void RIDETitleScreen()
         {
             Console.Title = "RIDE";
             Console.SetWindowSize(100, 30);

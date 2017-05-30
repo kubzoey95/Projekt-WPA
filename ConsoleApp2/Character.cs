@@ -157,31 +157,17 @@ namespace ConsoleApp2
                 {
                     if (this.playable)
                     {
-                        while (GlobalInput == ConsoleKey.UpArrow)
-                        {
-                            mesh.Transform(new Screen.Point(0, 1));
-                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(0, -1)); }
-                            else { }
-                            Thread.Sleep(20);
-                        }
-                        while (GlobalInput == ConsoleKey.DownArrow)
-                        {
-                            mesh.Transform(new Screen.Point(0, -1));
-                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(0, 1)); }
-                            else { }
-                            Thread.Sleep(20);
-                        }
                         while (GlobalInput == ConsoleKey.LeftArrow)
                         {
                             mesh.Transform(new Screen.Point(-1, 0));
-                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(1, 0)); }
+                            if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(1, 0)); }
                             else { }
                             Thread.Sleep(20);
                         }
                         while (GlobalInput == ConsoleKey.RightArrow)
                         {
                             mesh.Transform(new Screen.Point(1, 0));
-                            if (mesh.Collides()) { mesh.Transform(new Screen.Point(-1, 0)); }
+                            if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(-1, 0)); }
                             else { }
                             Thread.Sleep(20);
                         }
@@ -197,25 +183,25 @@ namespace ConsoleApp2
                             while (Console.ReadKey().Key == ConsoleKey.UpArrow)
                             {
                                 mesh.Transform(new Screen.Point(0, 1));
-                                if (mesh.Collides()) { mesh.Transform(new Screen.Point(0, -1)); }
+                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(0, -1)); }
                                 else { }
                             }
                             while (Console.ReadKey().Key == ConsoleKey.DownArrow)
                             {
                                 mesh.Transform(new Screen.Point(0, -1));
-                                if (mesh.Collides()) { mesh.Transform(new Screen.Point(0, 1)); }
+                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(0, 1)); }
                                 else { }
                             }
                             while (Console.ReadKey().Key == ConsoleKey.LeftArrow)
                             {
                                 mesh.Transform(new Screen.Point(-1, 0));
-                                if (mesh.Collides()) { mesh.Transform(new Screen.Point(1, 0)); }
+                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(1, 0)); }
                                 else { }
                             }
                             while (Console.ReadKey().Key == ConsoleKey.RightArrow)
                             {
                                 mesh.Transform(new Screen.Point(1, 0));
-                                if (mesh.Collides()) { mesh.Transform(new Screen.Point(-1, 0)); }
+                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(-1, 0)); }
                                 else { }
                             }
 

@@ -16,6 +16,15 @@ namespace ConsoleApp2
             {
                 return obstacles;
             }
+            public static void BounceBall(int velocity)
+            {
+                Mesh ball = new Mesh(ConsoleColor.White, new Screen.Point(Screen.GetHeight() / 2, Screen.GetWidth() / 2));
+                ball.SetRender(true);
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+
+                }
+            }
             public static void MakeBounds()
             {
                 bounds.MergeWith(new Mesh(new Screen.Point(0, 0), new Screen.Point(0, Console.WindowHeight), ConsoleColor.Black));

@@ -28,20 +28,18 @@ namespace ConsoleApp2
             }
         }
         private static Random rand = new Random();
+        private static int score = 0;
         public static void RIDE(int diff)
         {
             RIDETitleScreen();
             Character ch = new Character();
             ch.SetPlayableOrEnemy(true);
+            
             Mesh m = new Mesh(ConsoleColor.Yellow, new Screen.Point(2, 0), new Screen.Point(1, -1), new Screen.Point(2, -1), new Screen.Point(3, -1), new Screen.Point(2, 0));
             m.MiddlePointMoveTo(new Screen.Point(Screen.GetWidth() / 2, 3));
             m.SetRender(true);
             ch.SetMesh(m);
-            Parallel.Invoke(() => { ch.Move1(); }, () => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstacles(500,100); }, () => { Gameplay.Render(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
-        }
-        public static void Game2(int diff)
-        {
-
+            Parallel.Invoke(()=> { Stage.MoveGoods(diff); },() => { while (GlobalInput != ConsoleKey.Escape) { score = ch.GetScore(); }; },() => { ch.Move1(); }, () => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstaclesAndGoods(500,100); }, () => { Gameplay.Render(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
         }
         public static void RIDETitleScreen()
         {
@@ -76,9 +74,13 @@ namespace ConsoleApp2
         }
         public static void Render()
         {
+            string stats = "";
             while (GlobalInput != ConsoleKey.Escape)
             {
+                stats = "PTS:" + score.ToString();
                 Console.Clear();
+                Console.SetCursorPosition(Screen.GetWidth() - stats.Length - 1, Screen.GetHeight() - 2);
+                Console.Write(stats);
                 try
                 {
                     foreach (Mesh mes in Mesh.GetRender())

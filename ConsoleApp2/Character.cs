@@ -54,9 +54,14 @@ namespace ConsoleApp2
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }
+            int score;
             public static HashSet<Character> GetEnemies()
             {
                 return enemies;
+            }
+            public void AddScore(int pt)
+            {
+                score += pt;
             }
             public static HashSet<Character> GetPlayables()
             {
@@ -85,6 +90,13 @@ namespace ConsoleApp2
                 try { playables.Remove(this); } catch { }
 
             }
+            public void CameraFollow(int sizex,int sizey)
+            {
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    Screen.SetRef(Mesh.GetMiddlePoint(this.mesh).GetX() - sizex/2, Mesh.GetMiddlePoint(this.mesh).GetY() - sizey/2);
+                }
+            }
             public static void EnemyAttack(int moveduration)
             {
                 HashSet<Character> plb = new HashSet<Character>();
@@ -100,11 +112,22 @@ namespace ConsoleApp2
                 Thread.Sleep(moveduration);
                 EnemyAttack(moveduration);
             }
-            public static HashSet<Character> enemies = new HashSet<Character>();
-            public static HashSet<Character> playables = new HashSet<Character>();
+            private static HashSet<Character> enemies = new HashSet<Character>();
+            private static HashSet<Character> playables = new HashSet<Character>();
             Mesh mesh;
             bool enemy;
             bool playable;
+            public static void AddScoreForeach(int sc)
+            {
+                foreach(Character ch in playables)
+                {
+                    ch.score += sc;
+                }
+            }
+            public int GetScore()
+            {
+                return score;
+            }
             public void SetPlayableOrEnemy(bool ch)
             {
                 playable = ch;
@@ -159,15 +182,15 @@ namespace ConsoleApp2
                     {
                         while (GlobalInput == ConsoleKey.LeftArrow)
                         {
-                            mesh.Transform(new Screen.Point(-1, 0));
-                            if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(1, 0)); }
+                            mesh.Transform(-1, 0);
+                            if (Mesh.OutOfWindow(mesh)) { mesh.Transform(1, 0); }
                             else { }
                             Thread.Sleep(20);
                         }
                         while (GlobalInput == ConsoleKey.RightArrow)
                         {
-                            mesh.Transform(new Screen.Point(1, 0));
-                            if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(-1, 0)); }
+                            mesh.Transform(1, 0);
+                            if (Mesh.OutOfWindow(mesh)) { mesh.Transform(-1, 0); }
                             else { }
                             Thread.Sleep(20);
                         }
@@ -183,13 +206,13 @@ namespace ConsoleApp2
                             while (Console.ReadKey().Key == ConsoleKey.UpArrow)
                             {
                                 mesh.Transform(new Screen.Point(0, 1));
-                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(0, -1)); }
+                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(0, -1); }
                                 else { }
                             }
                             while (Console.ReadKey().Key == ConsoleKey.DownArrow)
                             {
                                 mesh.Transform(new Screen.Point(0, -1));
-                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(new Screen.Point(0, 1)); }
+                                if (Mesh.OutOfWindow(mesh)) { mesh.Transform(0, 1); }
                                 else { }
                             }
                             while (Console.ReadKey().Key == ConsoleKey.LeftArrow)

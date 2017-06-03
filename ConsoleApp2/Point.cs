@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+    
 
 namespace ConsoleApp2
 {
@@ -6,6 +8,13 @@ namespace ConsoleApp2
     {
         private static int height = Console.BufferHeight;
         private static int width = Console.BufferWidth;
+        private static int refx = 0;
+        private static int refy = 0;
+        public static void SetRef(int x,int y)
+        {
+            refx = x;
+            refy = y;
+        }
         public static int GetWidth() { return width; }
         public static int GetHeight() { return height; }
         public class Point:IDisposable
@@ -13,6 +22,7 @@ namespace ConsoleApp2
             private int x, y;
             private System.ConsoleColor color;
             public bool IsEqualWith(Screen.Point p) { if (this.x == p.x && this.y == p.y) return true; return false; }
+
             public Point(int x1,int y1)
             {
                 x = x1;
@@ -69,7 +79,7 @@ namespace ConsoleApp2
             }
             public void Render()
             {
-                if (x > 0 && height - y > 0 && x<width && y > 0)
+                if (x>0 && height > y && x<width && y > 0)
                 {
                     Console.ForegroundColor = color;
                     Console.SetCursorPosition(x, height - y);
@@ -78,7 +88,7 @@ namespace ConsoleApp2
             }
             public void Render(char ch)
             {
-                if (x > 0 && height - y > 0 && x < width && y > 0)
+                if (x > refx && height+refy  > y && x < width+refx && y > refy)
                 {
                     Console.ForegroundColor = color;
                     Console.SetCursorPosition(x, height - y);
@@ -87,7 +97,7 @@ namespace ConsoleApp2
             }
             public void UnRender()
             {
-                if (x > 0 && height - y > 0 && x < width && y > 0)
+                if (x > refx && height + refy > y && x < width + refx && y > refy)
                 {
                     Console.SetCursorPosition(x, height - y);
                     Console.Write(" ");

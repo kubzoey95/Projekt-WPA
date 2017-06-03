@@ -290,6 +290,29 @@ namespace ConsoleApp2
                 }
                 return false;
             }
+        public Mesh(bool rend,bool coll, ConsoleColor col, params Screen.Point[] pts)
+        {
+            if (coll)
+            {
+                colliders.Add(this);
+                collider = coll;
+            }
+            if (rend)
+            {
+                rendered = rend;
+                render.Add(this);
+            }
+            HashSet<Screen.Point> pt = new HashSet<Screen.Point>();
+            Mesh line = new Mesh();
+            for (int i = 0; i < pts.Length - 1; i++)
+            {
+                line = new Mesh(pts[i], pts[i + 1], col);
+                pt.UnionWith(line.points);
+            }
+            points = pt;
+            collider = false;
+            rendered = false;
+        }
         public Mesh( ConsoleColor col, params Screen.Point[] pts)
         {
             HashSet<Screen.Point> pt = new HashSet<Screen.Point>();

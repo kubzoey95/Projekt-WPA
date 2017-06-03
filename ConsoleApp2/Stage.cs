@@ -11,19 +11,29 @@ namespace ConsoleApp2
         {
 
             private static Mesh bounds = new Mesh();
+            private static HashSet<Mesh> goods = new HashSet<Mesh>();
             private static HashSet<Mesh> obstacles = new HashSet<Mesh>();
             public static HashSet<Mesh> GetObstacles()
             {
                 return obstacles;
             }
-            public static void BounceBall(int velocity)
+            public static void MakePlatforms(int quantity)
             {
-                Mesh ball = new Mesh(ConsoleColor.White, new Screen.Point(Screen.GetHeight() / 2, Screen.GetWidth() / 2));
-                ball.SetRender(true);
-                while (GlobalInput != ConsoleKey.Escape)
-                {
-
-                }
+                int pos = 1;
+                int height = Screen.GetHeight()/2;
+                int width = 19;
+                new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(pos, 1), new Screen.Point(pos, height), new Screen.Point(width, height), new Screen.Point(width, 0));
+                pos += rand.Next(10, 30);
+                while (quantity>0) {
+                    pos += rand.Next(10, 30);
+                    height += rand.Next(-10, 9);
+                    while (height < 1)
+                    {
+                        height += rand.Next(10);
+                    }
+                    new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(pos, 1), new Screen.Point(pos,height), new Screen.Point(pos+width, height), new Screen.Point(pos + width, 0));
+                    quantity--;
+                        }
             }
             public static void MakeBounds()
             {
@@ -44,6 +54,11 @@ namespace ConsoleApp2
             {
                 obstacles.Add(new Mesh(true,true,ConsoleColor.DarkRed,new Screen.Point(rand.Next(0,Screen.GetWidth()),Screen.GetHeight()),new Screen.Point(rand.Next(0,Screen.GetWidth()),Screen.GetHeight())));
             }
+            public static void MakeGoods()
+            {
+                goods.Add(new Mesh(true, false, ConsoleColor.Green, new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight()), new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight())));
+
+            }
             public static void MusicObstacle()
             {
                 while (GlobalInput != ConsoleKey.Escape)
@@ -52,10 +67,11 @@ namespace ConsoleApp2
                     obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight()), new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight())));
                 }
             }
-            private static HashSet<Mesh> trash = new HashSet<Mesh>();
-            private static HashSet<Character> trashch = new HashSet<Character>();
+            
             public static void MoveObstacles(int moveduration)
             {
+                 HashSet<Mesh> trash = new HashSet<Mesh>();
+             HashSet<Character> trashch = new HashSet<Character>();
                 while (GlobalInput!=ConsoleKey.Escape) {
                     try
                     {
@@ -86,6 +102,7 @@ namespace ConsoleApp2
                             if (Mesh.GetMiddlePoint(mes).GetY() < 0)
                             {
                                 trash.Add(mes);
+                                Character.AddScoreForeach(1);
                             }
                         }
                     }
@@ -103,14 +120,62 @@ namespace ConsoleApp2
                 Thread.Sleep(moveduration);
             }
             }
-            public static void MakeObstacles(int period,int quantity)
+            public static void MoveGoods(int moveduration)
+            {
+                HashSet<Mesh> trashg = new HashSet<Mesh>();
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    try
+                    {
+                        foreach (Mesh mes in goods)
+                        {
+                            mes.Transform(0, -1);
+                            try
+                            {
+                                foreach (Character ch in Character.GetPlayables())
+                                {
+                                    if (mes.CollidesWith(ch.GetMesh())) { trashg.Add(mes); Character.AddScoreForeach(50); }
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            if (Mesh.GetMiddlePoint(mes).GetY() < 0)
+                            {
+                                trashg.Add(mes);
+                            }
+                        }
+                    }
+                    catch { }
+                    foreach (Mesh mes in trashg)
+                    {
+                        try
+                        {
+                            goods.Remove(mes);
+                            mes.Dispose();
+                        }
+                        catch { }
+                    }
+                    trashg.Clear();
+                    Thread.Sleep(moveduration);
+                }
+            }
+            public static void MakeObstaclesAndGoods(int period,int quantity)
             {
                 int r;
                 while (quantity > 0 && GlobalInput != ConsoleKey.Escape)
                 {
                     r = rand.Next(0, Screen.GetWidth());
-                    obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r+rand.Next(4,20), Screen.GetHeight())));
-                    quantity--;
+                    if (rand.Next(0, 9) == 4)
+                    {
+                        goods.Add(new Mesh(true, false, ConsoleColor.Blue, new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight()), new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight())));
+                    }
+                    else
+                    {
+                        obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + rand.Next(4, 20), Screen.GetHeight())));
+                    }
+                        quantity--;
                     Thread.Sleep(period);
                 }
             }

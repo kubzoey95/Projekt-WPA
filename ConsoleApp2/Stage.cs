@@ -76,9 +76,11 @@ namespace ConsoleApp2
                     obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight()), new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight())));
                 }
             }
-            
+            static int obsmoveduration;
+            static int goodsmoveduration;
             public static void MoveObstacles(int moveduration)
             {
+                obsmoveduration = moveduration;
                  HashSet<Mesh> trash = new HashSet<Mesh>();
              HashSet<Character> trashch = new HashSet<Character>();
                 while (GlobalInput!=ConsoleKey.Escape) {
@@ -116,11 +118,12 @@ namespace ConsoleApp2
                     catch { }
                 }
                 trash.Clear();
-                Thread.Sleep(moveduration);
+                Thread.Sleep(obsmoveduration);
             }
             }
             public static void MoveGoods(int moveduration)
             {
+                goodsmoveduration = moveduration;
                 HashSet<Mesh> trashg = new HashSet<Mesh>();
                 while (GlobalInput != ConsoleKey.Escape)
                 {
@@ -157,7 +160,22 @@ namespace ConsoleApp2
                         catch { }
                     }
                     trashg.Clear();
-                    Thread.Sleep(moveduration);
+                    Thread.Sleep(goodsmoveduration);
+                }
+            }
+             public static void Dilation(int obs,int goods,int period, int min)
+            {
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    Thread.Sleep(period);
+                    if (goodsmoveduration > min)
+                    {
+                        goodsmoveduration -= goods;
+                    }
+                    if (obsmoveduration > min)
+                    {
+                        obsmoveduration -= obs;
+                    }
                 }
             }
             public static void MakeObstaclesAndGoods(int period,int quantity)

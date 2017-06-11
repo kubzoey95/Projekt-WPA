@@ -95,6 +95,7 @@ namespace ConsoleApp2
                 m.MiddlePointMoveTo(new Screen.Point(Screen.GetWidth() / 2, 3));
                 m.SetRender(true);
                 ch.SetMesh(m);
+                Console.CursorVisible = false;
                 Parallel.Invoke(() => { ch.Move1(); }, () => { Stage.MoveGoods(diff); }, () => { while (GlobalInput != ConsoleKey.Escape) { score = ch.GetScore(); }; }, () => { Stage.Dilation(how, how, per, dil); }, () => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstaclesAndGoods(500, 1000, true); }, () => { Gameplay.Render(); }, () => { Gameplay.MyMusic(0, -5, 0, 3, 0, -5, 0, 3, 0, -4, 0, 5, 7, 5, 2, -1); }, () => { Input(); }, () => { Character.CheckIfDies(); });
                 Console.Clear();
                 Console.SetCursorPosition(Screen.GetWidth() / 2 - "YOUR NAME:".Length / 2, Screen.GetHeight() / 2);
@@ -107,13 +108,13 @@ namespace ConsoleApp2
                     {
                         sst=sta.ReadToEnd();
                     sta.Close();
-                        sst += Environment.NewLine + nam + ": " + ch.GetScore();
+                        sst += Environment.NewLine + nam + ": " + ch.GetScore()+" " + System.DateTime.Today.ToString();
                         File.WriteAllText("stats.txt", sst);
                     }
                       }
                 catch
                 {
-                    File.WriteAllText("stats.txt", nam + ": " + ch.GetScore());
+                    File.WriteAllText("stats.txt", nam + ": " + ch.GetScore() + " " + System.DateTime.Today.ToString());
                 }
                 Console.Clear();
             }

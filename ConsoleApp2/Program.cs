@@ -12,7 +12,6 @@ namespace ConsoleApp2
         static void Main(string[] args)
         {
             Gameplay.RIDE();
-            Console.ReadKey();
         }
     }
 }

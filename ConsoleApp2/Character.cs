@@ -95,6 +95,10 @@ namespace ConsoleApp2
 
                     }
             }
+            public int GetHealth()
+            {
+                return health;
+            } 
             public static string GetHealthForeach()
             {
                 string str;
@@ -216,6 +220,10 @@ namespace ConsoleApp2
             {
                 while (GlobalInput != ConsoleKey.Escape)
                 {
+                    while (GlobalInput == ConsoleKey.P)
+                    {
+
+                    }
                     if (this.playable)
                     {
                         while (GlobalInput == ConsoleKey.LeftArrow)

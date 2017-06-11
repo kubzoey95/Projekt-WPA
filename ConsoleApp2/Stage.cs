@@ -84,6 +84,10 @@ namespace ConsoleApp2
                  HashSet<Mesh> trash = new HashSet<Mesh>();
              HashSet<Character> trashch = new HashSet<Character>();
                 while (GlobalInput!=ConsoleKey.Escape) {
+                    while (GlobalInput == ConsoleKey.P)
+                    {
+
+                    }
                     try
                     {
                         foreach (Mesh mes in obstacles)
@@ -127,6 +131,10 @@ namespace ConsoleApp2
                 HashSet<Mesh> trashg = new HashSet<Mesh>();
                 while (GlobalInput != ConsoleKey.Escape)
                 {
+                    while (GlobalInput == ConsoleKey.P)
+                    {
+
+                    }
                     try
                     {
                         foreach (Mesh mes in goods)
@@ -167,6 +175,10 @@ namespace ConsoleApp2
             {
                 while (GlobalInput != ConsoleKey.Escape)
                 {
+                    while (GlobalInput == ConsoleKey.P)
+                    {
+
+                    }
                     Thread.Sleep(period);
                     if (goodsmoveduration > min)
                     {
@@ -178,24 +190,50 @@ namespace ConsoleApp2
                     }
                 }
             }
-            public static void MakeObstaclesAndGoods(int period,int quantity)
+            public static void MakeObstaclesAndGoods(int period,int quantity, bool inf)
             {
                 Thread.Sleep(3000);
                 int r;
-                while (quantity>0&&GlobalInput != ConsoleKey.Escape)
-                {
-                    stagetype = 0;
-                    r = rand.Next(0, Screen.GetWidth());
-                    if (rand.Next(0, 9) == 4)
+                if (inf) {
+                    while (GlobalInput != ConsoleKey.Escape)
                     {
-                        goods.Add(new Mesh(true, false, ConsoleColor.Green, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r+5, Screen.GetHeight())));
+                        while (GlobalInput == ConsoleKey.P)
+                        {
+
+                        }
+                        stagetype = 0;
+                        r = rand.Next(0, Screen.GetWidth());
+                        if (rand.Next(0, 9) == 4)
+                        {
+                            goods.Add(new Mesh(true, false, ConsoleColor.Green, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + 5, Screen.GetHeight())));
+                        }
+                        else
+                        {
+                            obstacles.Add(new Mesh(true, false, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + rand.Next(4, 20), Screen.GetHeight())));
+                        }
+                        Thread.Sleep(period);
                     }
-                    else
+                }
+                else {
+                    while (quantity > 0 && GlobalInput != ConsoleKey.Escape)
                     {
-                        obstacles.Add(new Mesh(true, false, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + rand.Next(4, 20), Screen.GetHeight())));
-                    }
+                        while (GlobalInput == ConsoleKey.P)
+                        {
+
+                        }
+                        stagetype = 0;
+                        r = rand.Next(0, Screen.GetWidth());
+                        if (rand.Next(0, 9) == 4)
+                        {
+                            goods.Add(new Mesh(true, false, ConsoleColor.Green, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + 5, Screen.GetHeight())));
+                        }
+                        else
+                        {
+                            obstacles.Add(new Mesh(true, false, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + rand.Next(4, 20), Screen.GetHeight())));
+                        }
                         quantity--;
-                    Thread.Sleep(period);
+                        Thread.Sleep(period);
+                    }
                    /* if (quantity< 1)
                     {
                         stagetype = 1;

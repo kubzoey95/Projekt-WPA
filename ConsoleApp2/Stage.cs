@@ -11,6 +11,15 @@ namespace ConsoleApp2
         {
 
             private static Mesh bounds = new Mesh();
+            private static int stagetype = 0;
+            public static int GetStageType()
+            {
+                return stagetype;
+            }
+            public static void SetStageType(int st)
+            {
+                stagetype = st;
+            }
             private static HashSet<Mesh> goods = new HashSet<Mesh>();
             private static HashSet<Mesh> obstacles = new HashSet<Mesh>();
             public static HashSet<Mesh> GetObstacles()
@@ -82,23 +91,13 @@ namespace ConsoleApp2
                             {
                                 foreach (Character ch in Character.GetPlayables())
                                 {
-                                    if (mes.CollidesWith(ch.GetMesh())) { trashch.Add(ch); trash.Add(mes); }
+                                    if (mes.CollidesWith(ch.GetMesh())) { trashch.Add(ch); trash.Add(mes); ch.HealthDecrease(1); }
                                 }
                             }
                             catch
                             {
 
                             }
-
-                            foreach (Character ch in trashch)
-                            {
-                                try
-                                {
-                                    ch.Dispose();
-                                }
-                                catch { }
-                            }
-                            trashch.Clear();
                             if (Mesh.GetMiddlePoint(mes).GetY() < 0)
                             {
                                 trash.Add(mes);
@@ -163,20 +162,30 @@ namespace ConsoleApp2
             }
             public static void MakeObstaclesAndGoods(int period,int quantity)
             {
+                Thread.Sleep(3000);
                 int r;
-                while (quantity > 0 && GlobalInput != ConsoleKey.Escape)
+                while (quantity>0&&GlobalInput != ConsoleKey.Escape)
                 {
+                    stagetype = 0;
                     r = rand.Next(0, Screen.GetWidth());
                     if (rand.Next(0, 9) == 4)
                     {
-                        goods.Add(new Mesh(true, false, ConsoleColor.Blue, new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight()), new Screen.Point(rand.Next(0, Screen.GetWidth()), Screen.GetHeight())));
+                        goods.Add(new Mesh(true, false, ConsoleColor.Green, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r+5, Screen.GetHeight())));
                     }
                     else
                     {
-                        obstacles.Add(new Mesh(true, true, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + rand.Next(4, 20), Screen.GetHeight())));
+                        obstacles.Add(new Mesh(true, false, ConsoleColor.DarkRed, new Screen.Point(r, Screen.GetHeight()), new Screen.Point(r + rand.Next(4, 20), Screen.GetHeight())));
                     }
                         quantity--;
                     Thread.Sleep(period);
+                   /* if (quantity< 1)
+                    {
+                        stagetype = 1;
+                        while (stagetype == 1)
+                        {
+                            Character.MakeBoss(stagetype);
+                        }
+                    }*/
                 }
             }
         }

@@ -8,40 +8,6 @@ namespace ConsoleApp2
     {
         public class Character : IDisposable
         {
-            /*private static HashSet<Mesh> bullets = new HashSet<Mesh>();
-            public static HashSet<Mesh> GetBullets()
-            {
-                return bullets;
-            }
-            public static void AddBullets(Mesh pt)
-            {
-                bullets.Add(pt);
-            }
-            public static void BulletsFly(int moveduration)
-            {
-                HashSet<Mesh> trash = new HashSet<Mesh>();
-                try
-                {
-                    foreach (Mesh bull in bullets)
-                    {
-                        if (Mesh.GetMiddlePoint(bull).GetY() > Screen.GetHeight())
-                        {
-                            trash.Add(bull);
-                        }
-                        else
-                        {
-                            bull.Transform(0, 1);
-                        }
-                    }
-                }
-                catch { }
-                foreach(Mesh tr in trash)
-                {
-                    Mesh.Remove(tr);
-                }
-                Thread.Sleep(moveduration);
-                BulletsFly(moveduration);
-            }*/
             protected virtual void Dispose(bool ti)
             {
             }
@@ -63,6 +29,93 @@ namespace ConsoleApp2
             {
                 score += pt;
             }
+            public static void CheckIfDies()
+            {
+                HashSet<Character> trash = new HashSet<Character>();
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    trash.Clear();
+                    try
+                    {
+                        foreach (Character ch in playables)
+                        {
+                            if (ch.health < 1)
+                            {
+                                trash.Add(ch);
+                            }
+                        }
+                    }
+                    catch { }
+                    try
+                    {
+                        foreach (Character ch in enemies)
+                        {
+                            if (ch.health < 1)
+                            {
+                                trash.Add(ch);
+                            }
+                        }
+                    }
+                    catch { }
+                    foreach(Character ch in trash)
+                    {
+                        ch.Dispose();
+                    }
+                }
+            }
+            /*public static void MakeBoss(int st)
+            {
+                HashSet<Screen.Point> stings = new HashSet<Screen.Point>();
+                for(int i = 0; i < st; i++)
+                {
+                    stings.Add(new Screen.Point(rand.Next(0, st), 0));
+                }
+                for(int i = 0; i < st+4; i++)
+                {
+                    stings.Add(new Screen.Point(rand.Next(st / 2 - st - 4, st / 2 + st + 4), rand.Next(0, st + 4)));
+                }
+                Mesh mes = new Mesh(true,false,ConsoleColor.Blue, stings);
+                Character ch = new Character(mes);
+                ch.mesh.MiddlePointMoveTo(new Screen.Point(Screen.GetWidth() / 2, Screen.GetHeight() - (st + 4)));
+                while (Gameplay.Stage.GetStageType() > 0&&GlobalInput!=ConsoleKey.Escape)
+                {
+                    EnemyTrace();
+                    Thread.Sleep(2000 / st);
+                }
+            }*/
+            public static void EnemyTrace()
+            {
+                
+                    foreach(Character plb in playables)
+                    {
+                    foreach (Character ch in enemies)
+                    {
+                        plb.mesh.Transform(0, (Mesh.GetMiddlePoint(plb.mesh).GetY() - Mesh.GetMiddlePoint(ch.mesh).GetY()) / Math.Abs(Mesh.GetMiddlePoint(plb.mesh).GetY() - Mesh.GetMiddlePoint(ch.mesh).GetY()));
+                    }
+
+                    }
+            }
+            public static string GetHealthForeach()
+            {
+                string str;
+                int i;
+                while (GlobalInput != ConsoleKey.Escape)
+                {
+                    i = 0;
+                    str = "";
+                    foreach (Character ch in playables)
+                    {
+                        i++;
+                        str += "HP" + i.ToString() + ":" + ch.health.ToString() + " ";
+                    }
+                    return str;
+                }
+                return "";
+            }
+            public void HealthDecrease(int dec)
+            {
+                health -= dec;
+            }
             public static HashSet<Character> GetPlayables()
             {
                 return playables;
@@ -74,28 +127,11 @@ namespace ConsoleApp2
                 this.SetPlayableOrEnemy(plbl);
                 this.mesh.SetRender(true);
             }
-            /*public void CheckIfDies()
-            {
-                while (true)
-                {
-                        foreach (Mesh mes *in Gameplay.Stage.GetObstacles())
-                        {
-                            if (this.mesh.CollidesWith(mes)) { this.mesh.SetRender(false); this.Dispose(); }
-                        }
-                }
-            }*/
             ~Character()
             {
                 try { enemies.Remove(this); } catch { }
                 try { playables.Remove(this); } catch { }
 
-            }
-            public void CameraFollow(int sizex,int sizey)
-            {
-                while (GlobalInput != ConsoleKey.Escape)
-                {
-                    Screen.SetRef(Mesh.GetMiddlePoint(this.mesh).GetX() - sizex/2, Mesh.GetMiddlePoint(this.mesh).GetY() - sizey/2);
-                }
             }
             public static void EnemyAttack(int moveduration)
             {
@@ -115,6 +151,7 @@ namespace ConsoleApp2
             private static HashSet<Character> enemies = new HashSet<Character>();
             private static HashSet<Character> playables = new HashSet<Character>();
             Mesh mesh;
+            int health;
             bool enemy;
             bool playable;
             public static void AddScoreForeach(int sc)
@@ -135,6 +172,7 @@ namespace ConsoleApp2
                 if (ch)
                 {
                     playables.Add(this);
+                    this.health = 3;
                     enemies.Remove(this);
                 }
                 else

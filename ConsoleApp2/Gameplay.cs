@@ -39,7 +39,7 @@ namespace ConsoleApp2
             m.MiddlePointMoveTo(new Screen.Point(Screen.GetWidth() / 2, 3));
             m.SetRender(true);
             ch.SetMesh(m);
-            Parallel.Invoke(()=> { Stage.MoveGoods(diff); },() => { while (GlobalInput != ConsoleKey.Escape) { score = ch.GetScore(); }; },() => { ch.Move1(); }, () => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstaclesAndGoods(500,100); }, () => { Gameplay.Render(); }, () => { Gameplay.MyMusic(); }, () => { Input(); });
+            Parallel.Invoke(() => { ch.Move1(); }, ()=> { Stage.MoveGoods(diff); },() => { while (GlobalInput != ConsoleKey.Escape) { score = ch.GetScore(); }; },() => { Gameplay.Stage.MoveObstacles(diff); }, () => { Gameplay.Stage.MakeObstaclesAndGoods(500,2); }, () => { Gameplay.Render(); }, () => { Gameplay.MyMusic(); }, () => { Input(); },()=> { Character.CheckIfDies(); });
         }
         public static void RIDETitleScreen()
         {
@@ -80,6 +80,10 @@ namespace ConsoleApp2
                 stats = "PTS:" + score.ToString();
                 Console.Clear();
                 Console.SetCursorPosition(Screen.GetWidth() - stats.Length - 1, Screen.GetHeight() - 2);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(stats);
+                stats = Character.GetHealthForeach();
+                Console.SetCursorPosition(Screen.GetWidth() - stats.Length - 1, 2);
                 Console.Write(stats);
                 try
                 {
